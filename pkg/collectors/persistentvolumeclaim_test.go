@@ -1,32 +1,15 @@
-/*
-Copyright 2017 The Kubernetes Authors All rights reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package collectors
 
 import (
 	"testing"
-
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestPersistentVolumeClaimCollector(t *testing.T) {
-	// Fixed metadata on type and help text. We prepend this to every expected
-	// output so we only have to modify a single place when doing adjustments.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_persistentvolumeclaim_info Information about persistent volume claim.
 		# TYPE kube_persistentvolumeclaim_info gauge
@@ -38,82 +21,26 @@ func TestPersistentVolumeClaimCollector(t *testing.T) {
 		# TYPE kube_persistentvolumeclaim_resource_requests_storage_bytes gauge
 	`
 	storageClassName := "rbd"
-	cases := []generateMetricsTestCase{
-		// Verify phase enumerations.
-		{
-			Obj: &v1.PersistentVolumeClaim{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "mysql-data",
-					Namespace: "default",
-					Labels: map[string]string{
-						"app": "mysql-server",
-					},
-				},
-				Spec: v1.PersistentVolumeClaimSpec{
-					StorageClassName: &storageClassName,
-					Resources: v1.ResourceRequirements{
-						Requests: v1.ResourceList{
-							v1.ResourceStorage: resource.MustParse("1Gi"),
-						},
-					},
-					VolumeName: "pvc-mysql-data",
-				},
-				Status: v1.PersistentVolumeClaimStatus{
-					Phase: v1.ClaimBound,
-				},
-			},
-			Want: `
+	cases := []generateMetricsTestCase{{Obj: &v1.PersistentVolumeClaim{ObjectMeta: metav1.ObjectMeta{Name: "mysql-data", Namespace: "default", Labels: map[string]string{"app": "mysql-server"}}, Spec: v1.PersistentVolumeClaimSpec{StorageClassName: &storageClassName, Resources: v1.ResourceRequirements{Requests: v1.ResourceList{v1.ResourceStorage: resource.MustParse("1Gi")}}, VolumeName: "pvc-mysql-data"}, Status: v1.PersistentVolumeClaimStatus{Phase: v1.ClaimBound}}, Want: `
 				kube_persistentvolumeclaim_info{namespace="default",persistentvolumeclaim="mysql-data",storageclass="rbd",volumename="pvc-mysql-data"} 1
 				kube_persistentvolumeclaim_status_phase{namespace="default",persistentvolumeclaim="mysql-data",phase="Bound"} 1
 				kube_persistentvolumeclaim_status_phase{namespace="default",persistentvolumeclaim="mysql-data",phase="Lost"} 0
 				kube_persistentvolumeclaim_status_phase{namespace="default",persistentvolumeclaim="mysql-data",phase="Pending"} 0
 				kube_persistentvolumeclaim_resource_requests_storage_bytes{namespace="default",persistentvolumeclaim="mysql-data"} 1.073741824e+09
 				kube_persistentvolumeclaim_labels{label_app="mysql-server",namespace="default",persistentvolumeclaim="mysql-data"} 1
-`,
-			MetricNames: []string{"kube_persistentvolumeclaim_info", "kube_persistentvolumeclaim_status_phase", "kube_persistentvolumeclaim_resource_requests_storage_bytes", "kube_persistentvolumeclaim_labels"},
-		},
-		{
-			Obj: &v1.PersistentVolumeClaim{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "prometheus-data",
-					Namespace: "default",
-				},
-				Spec: v1.PersistentVolumeClaimSpec{
-					StorageClassName: &storageClassName,
-					VolumeName:       "pvc-prometheus-data",
-				},
-				Status: v1.PersistentVolumeClaimStatus{
-					Phase: v1.ClaimPending,
-				},
-			},
-			Want: `
+`, MetricNames: []string{"kube_persistentvolumeclaim_info", "kube_persistentvolumeclaim_status_phase", "kube_persistentvolumeclaim_resource_requests_storage_bytes", "kube_persistentvolumeclaim_labels"}}, {Obj: &v1.PersistentVolumeClaim{ObjectMeta: metav1.ObjectMeta{Name: "prometheus-data", Namespace: "default"}, Spec: v1.PersistentVolumeClaimSpec{StorageClassName: &storageClassName, VolumeName: "pvc-prometheus-data"}, Status: v1.PersistentVolumeClaimStatus{Phase: v1.ClaimPending}}, Want: `
 				kube_persistentvolumeclaim_info{namespace="default",persistentvolumeclaim="prometheus-data",storageclass="rbd",volumename="pvc-prometheus-data"} 1
 				kube_persistentvolumeclaim_status_phase{namespace="default",persistentvolumeclaim="prometheus-data",phase="Bound"} 0
 				kube_persistentvolumeclaim_status_phase{namespace="default",persistentvolumeclaim="prometheus-data",phase="Lost"} 0
 				kube_persistentvolumeclaim_status_phase{namespace="default",persistentvolumeclaim="prometheus-data",phase="Pending"} 1
 				kube_persistentvolumeclaim_labels{namespace="default",persistentvolumeclaim="prometheus-data"} 1
-			`,
-			MetricNames: []string{"kube_persistentvolumeclaim_info", "kube_persistentvolumeclaim_status_phase", "kube_persistentvolumeclaim_resource_requests_storage_bytes", "kube_persistentvolumeclaim_labels"},
-		},
-		{
-			Obj: &v1.PersistentVolumeClaim{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "mongo-data",
-				},
-				Status: v1.PersistentVolumeClaimStatus{
-					Phase: v1.ClaimLost,
-				},
-			},
-			Want: `
+			`, MetricNames: []string{"kube_persistentvolumeclaim_info", "kube_persistentvolumeclaim_status_phase", "kube_persistentvolumeclaim_resource_requests_storage_bytes", "kube_persistentvolumeclaim_labels"}}, {Obj: &v1.PersistentVolumeClaim{ObjectMeta: metav1.ObjectMeta{Name: "mongo-data"}, Status: v1.PersistentVolumeClaimStatus{Phase: v1.ClaimLost}}, Want: `
 				kube_persistentvolumeclaim_info{namespace="",persistentvolumeclaim="mongo-data",storageclass="<none>",volumename=""} 1
 				kube_persistentvolumeclaim_status_phase{namespace="",persistentvolumeclaim="mongo-data",phase="Bound"} 0
 				kube_persistentvolumeclaim_status_phase{namespace="",persistentvolumeclaim="mongo-data",phase="Lost"} 1
 				kube_persistentvolumeclaim_status_phase{namespace="",persistentvolumeclaim="mongo-data",phase="Pending"} 0
 				kube_persistentvolumeclaim_labels{namespace="",persistentvolumeclaim="mongo-data"} 1
-`,
-			MetricNames: []string{"kube_persistentvolumeclaim_info", "kube_persistentvolumeclaim_status_phase", "kube_persistentvolumeclaim_resource_requests_storage_bytes", "kube_persistentvolumeclaim_labels"},
-		},
-	}
+`, MetricNames: []string{"kube_persistentvolumeclaim_info", "kube_persistentvolumeclaim_status_phase", "kube_persistentvolumeclaim_resource_requests_storage_bytes", "kube_persistentvolumeclaim_labels"}}}
 	for i, c := range cases {
 		c.Func = composeMetricGenFuncs(persistentVolumeClaimMetricFamilies)
 		if err := c.run(); err != nil {

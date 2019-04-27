@@ -1,19 +1,3 @@
-/*
-Copyright 2015 The Kubernetes Authors All rights reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
@@ -26,10 +10,8 @@ import (
 	"strings"
 	"testing"
 	"time"
-
 	kcollectors "k8s.io/kube-state-metrics/pkg/collectors"
 	"k8s.io/kube-state-metrics/pkg/options"
-
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -38,109 +20,78 @@ import (
 )
 
 func BenchmarkKubeStateMetrics(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var collectors []*kcollectors.Collector
 	fixtureMultiplier := 1000
 	requestCount := 1000
-
-	b.Logf(
-		"starting kube-state-metrics benchmark with fixtureMultiplier %v and requestCount %v",
-		fixtureMultiplier,
-		requestCount,
-	)
-
+	b.Logf("starting kube-state-metrics benchmark with fixtureMultiplier %v and requestCount %v", fixtureMultiplier, requestCount)
 	kubeClient := fake.NewSimpleClientset()
-
 	if err := injectFixtures(kubeClient, fixtureMultiplier); err != nil {
 		b.Errorf("error injecting resources: %v", err)
 	}
-
 	builder := kcollectors.NewBuilder(context.TODO())
 	builder.WithEnabledCollectors(options.DefaultCollectors.AsSlice())
 	builder.WithKubeClient(kubeClient)
 	builder.WithNamespaces(options.DefaultNamespaces)
-
 	l, err := whiteblacklist.New(map[string]struct{}{}, map[string]struct{}{})
 	if err != nil {
 		b.Fatal(err)
 	}
 	builder.WithWhiteBlackList(l)
-
-	// This test is not suitable to be compared in terms of time, as it includes
-	// a one second wait. Use for memory allocation comparisons, profiling, ...
 	b.Run("GenerateMetrics", func(b *testing.B) {
 		collectors = builder.Build()
-
-		// Wait for caches to fill
 		time.Sleep(time.Second)
 	})
-
 	handler := metricHandler{collectors, false}
 	req := httptest.NewRequest("GET", "http://localhost:8080/metrics", nil)
-
 	b.Run("MakeRequests", func(b *testing.B) {
 		var accumulatedContentLength int
-
 		for i := 0; i < requestCount; i++ {
 			w := httptest.NewRecorder()
 			handler.ServeHTTP(w, req)
-
 			resp := w.Result()
 			if resp.StatusCode != 200 {
 				b.Fatalf("expected 200 status code but got %v", resp.StatusCode)
 			}
-
 			b.StopTimer()
 			buf := bytes.Buffer{}
 			buf.ReadFrom(resp.Body)
 			accumulatedContentLength += buf.Len()
 			b.StartTimer()
 		}
-
 		b.SetBytes(int64(accumulatedContentLength))
 	})
 }
-
-// TestFullScrapeCycle is a simple smoke test covering the entire cycle from
-// cache filling to scraping.
 func TestFullScrapeCycle(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
-
 	kubeClient := fake.NewSimpleClientset()
-
 	err := pod(kubeClient, 0)
 	if err != nil {
 		t.Fatalf("failed to insert sample pod %v", err.Error())
 	}
-
 	builder := kcollectors.NewBuilder(context.TODO())
 	builder.WithEnabledCollectors(options.DefaultCollectors.AsSlice())
 	builder.WithKubeClient(kubeClient)
 	builder.WithNamespaces(options.DefaultNamespaces)
-
 	l, err := whiteblacklist.New(map[string]struct{}{}, map[string]struct{}{})
 	if err != nil {
 		t.Fatal(err)
 	}
 	builder.WithWhiteBlackList(l)
-
 	collectors := builder.Build()
-
-	// Wait for caches to fill
 	time.Sleep(time.Second)
-
 	handler := metricHandler{collectors, false}
 	req := httptest.NewRequest("GET", "http://localhost:8080/metrics", nil)
-
 	w := httptest.NewRecorder()
 	handler.ServeHTTP(w, req)
-
 	resp := w.Result()
 	if resp.StatusCode != 200 {
 		t.Fatalf("expected 200 status code but got %v", resp.StatusCode)
 	}
-
 	body, _ := ioutil.ReadAll(resp.Body)
-
 	expected := `# HELP kube_pod_info Information about pod.
 # TYPE kube_pod_info gauge
 kube_pod_info{namespace="default",pod="pod0",host_ip="1.1.1.1",pod_ip="1.2.3.4",uid="abc-123-xxx",node="node1",created_by_kind="<none>",created_by_name="<none>"} 1
@@ -264,156 +215,60 @@ kube_pod_container_resource_limits_memory_bytes{namespace="default",pod="pod0",c
 # TYPE kube_pod_spec_volumes_persistentvolumeclaims_info gauge
 # HELP kube_pod_spec_volumes_persistentvolumeclaims_readonly Describes whether a persistentvolumeclaim is mounted read only.
 # TYPE kube_pod_spec_volumes_persistentvolumeclaims_readonly gauge`
-
 	expectedSplit := strings.Split(strings.TrimSpace(expected), "\n")
 	sort.Strings(expectedSplit)
-
 	gotSplit := strings.Split(strings.TrimSpace(string(body)), "\n")
-
 	gotFiltered := []string{}
 	for _, l := range gotSplit {
 		if strings.Contains(l, "kube_pod_") {
 			gotFiltered = append(gotFiltered, l)
 		}
 	}
-
 	sort.Strings(gotFiltered)
-
 	if len(expectedSplit) != len(gotFiltered) {
 		t.Fatal("expected different output length")
 	}
-
 	for i := 0; i < len(expectedSplit); i++ {
 		if expectedSplit[i] != gotFiltered[i] {
 			t.Fatalf("expected %v, but got %v", expectedSplit[i], gotFiltered[i])
 		}
 	}
 }
-
 func injectFixtures(client *fake.Clientset, multiplier int) error {
-	creators := []func(*fake.Clientset, int) error{
-		configMap,
-		service,
-		pod,
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	creators := []func(*fake.Clientset, int) error{configMap, service, pod}
 	for _, c := range creators {
 		for i := 0; i < multiplier; i++ {
 			err := c(client, i)
-
 			if err != nil {
 				return err
 			}
 		}
 	}
-
 	return nil
 }
-
 func configMap(client *fake.Clientset, index int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := strconv.Itoa(index)
-
-	configMap := v1.ConfigMap{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:            "configmap" + i,
-			ResourceVersion: "123456",
-		},
-	}
+	configMap := v1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "configmap" + i, ResourceVersion: "123456"}}
 	_, err := client.CoreV1().ConfigMaps(metav1.NamespaceDefault).Create(&configMap)
 	return err
 }
-
 func service(client *fake.Clientset, index int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := strconv.Itoa(index)
-
-	service := v1.Service{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:            "service" + i,
-			ResourceVersion: "123456",
-		},
-	}
+	service := v1.Service{ObjectMeta: metav1.ObjectMeta{Name: "service" + i, ResourceVersion: "123456"}}
 	_, err := client.CoreV1().Services(metav1.NamespaceDefault).Create(&service)
 	return err
 }
-
 func pod(client *fake.Clientset, index int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := strconv.Itoa(index)
-
-	pod := v1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:              "pod" + i,
-			CreationTimestamp: metav1.Time{Time: time.Unix(1500000000, 0)},
-			Namespace:         "default",
-			UID:               "abc-123-xxx",
-		},
-		Spec: v1.PodSpec{
-			NodeName: "node1",
-			Containers: []v1.Container{
-				v1.Container{
-					Name: "pod1_con1",
-					Resources: v1.ResourceRequirements{
-						Requests: map[v1.ResourceName]resource.Quantity{
-							v1.ResourceCPU:                    resource.MustParse("200m"),
-							v1.ResourceMemory:                 resource.MustParse("100M"),
-							v1.ResourceEphemeralStorage:       resource.MustParse("300M"),
-							v1.ResourceStorage:                resource.MustParse("400M"),
-							v1.ResourceName("nvidia.com/gpu"): resource.MustParse("1"),
-						},
-						Limits: map[v1.ResourceName]resource.Quantity{
-							v1.ResourceCPU:                    resource.MustParse("200m"),
-							v1.ResourceMemory:                 resource.MustParse("100M"),
-							v1.ResourceEphemeralStorage:       resource.MustParse("300M"),
-							v1.ResourceStorage:                resource.MustParse("400M"),
-							v1.ResourceName("nvidia.com/gpu"): resource.MustParse("1"),
-						},
-					},
-				},
-				v1.Container{
-					Name: "pod1_con2",
-					Resources: v1.ResourceRequirements{
-						Requests: map[v1.ResourceName]resource.Quantity{
-							v1.ResourceCPU:    resource.MustParse("300m"),
-							v1.ResourceMemory: resource.MustParse("200M"),
-						},
-						Limits: map[v1.ResourceName]resource.Quantity{
-							v1.ResourceCPU:    resource.MustParse("300m"),
-							v1.ResourceMemory: resource.MustParse("200M"),
-						},
-					},
-				},
-			},
-		},
-		Status: v1.PodStatus{
-			HostIP: "1.1.1.1",
-			PodIP:  "1.2.3.4",
-			Phase:  v1.PodRunning,
-			ContainerStatuses: []v1.ContainerStatus{
-				v1.ContainerStatus{
-					Name:        "container2",
-					Image:       "k8s.gcr.io/hyperkube2",
-					ImageID:     "docker://sha256:bbb",
-					ContainerID: "docker://cd456",
-					State: v1.ContainerState{
-						Waiting: &v1.ContainerStateWaiting{
-							Reason: "CrashLoopBackOff",
-						},
-					},
-					LastTerminationState: v1.ContainerState{
-						Terminated: &v1.ContainerStateTerminated{
-							Reason: "OOMKilled",
-						},
-					},
-				},
-				v1.ContainerStatus{
-					Name:        "container3",
-					Image:       "k8s.gcr.io/hyperkube3",
-					ImageID:     "docker://sha256:ccc",
-					ContainerID: "docker://ef789",
-				},
-			},
-		},
-	}
-
+	pod := v1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "pod" + i, CreationTimestamp: metav1.Time{Time: time.Unix(1500000000, 0)}, Namespace: "default", UID: "abc-123-xxx"}, Spec: v1.PodSpec{NodeName: "node1", Containers: []v1.Container{v1.Container{Name: "pod1_con1", Resources: v1.ResourceRequirements{Requests: map[v1.ResourceName]resource.Quantity{v1.ResourceCPU: resource.MustParse("200m"), v1.ResourceMemory: resource.MustParse("100M"), v1.ResourceEphemeralStorage: resource.MustParse("300M"), v1.ResourceStorage: resource.MustParse("400M"), v1.ResourceName("nvidia.com/gpu"): resource.MustParse("1")}, Limits: map[v1.ResourceName]resource.Quantity{v1.ResourceCPU: resource.MustParse("200m"), v1.ResourceMemory: resource.MustParse("100M"), v1.ResourceEphemeralStorage: resource.MustParse("300M"), v1.ResourceStorage: resource.MustParse("400M"), v1.ResourceName("nvidia.com/gpu"): resource.MustParse("1")}}}, v1.Container{Name: "pod1_con2", Resources: v1.ResourceRequirements{Requests: map[v1.ResourceName]resource.Quantity{v1.ResourceCPU: resource.MustParse("300m"), v1.ResourceMemory: resource.MustParse("200M")}, Limits: map[v1.ResourceName]resource.Quantity{v1.ResourceCPU: resource.MustParse("300m"), v1.ResourceMemory: resource.MustParse("200M")}}}}}, Status: v1.PodStatus{HostIP: "1.1.1.1", PodIP: "1.2.3.4", Phase: v1.PodRunning, ContainerStatuses: []v1.ContainerStatus{v1.ContainerStatus{Name: "container2", Image: "k8s.gcr.io/hyperkube2", ImageID: "docker://sha256:bbb", ContainerID: "docker://cd456", State: v1.ContainerState{Waiting: &v1.ContainerStateWaiting{Reason: "CrashLoopBackOff"}}, LastTerminationState: v1.ContainerState{Terminated: &v1.ContainerStateTerminated{Reason: "OOMKilled"}}}, v1.ContainerStatus{Name: "container3", Image: "k8s.gcr.io/hyperkube3", ImageID: "docker://sha256:ccc", ContainerID: "docker://ef789"}}}}
 	_, err := client.CoreV1().Pods(metav1.NamespaceDefault).Create(&pod)
 	return err
 }
