@@ -13,6 +13,8 @@ var (
 func TestHPACollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_hpa_metadata_generation The generation observed by the HorizontalPodAutoscaler controller.
 		# TYPE kube_hpa_metadata_generation gauge

@@ -24,6 +24,8 @@ var (
 func TestJobCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_job_created Unix creation timestamp
 		# TYPE kube_job_created gauge

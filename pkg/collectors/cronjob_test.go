@@ -22,6 +22,8 @@ var (
 func TestCronJobCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hour := ActiveRunningCronJob1LastScheduleTime.Hour()
 	ActiveRunningCronJob1NextScheduleTime := time.Time{}
 	switch {

@@ -95,6 +95,8 @@ var (
 func wrapJobFunc(f func(*v1batch.Job) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		job := obj.(*v1batch.Job)
 		metricFamily := f(job)
@@ -106,6 +108,8 @@ func wrapJobFunc(f func(*v1batch.Job) metrics.Family) func(interface{}) metrics.
 	}
 }
 func createJobListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

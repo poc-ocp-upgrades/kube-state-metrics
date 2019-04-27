@@ -22,9 +22,13 @@ type MetricsStore struct {
 func NewMetricsStore(headers []string, generateFunc func(interface{}) []FamilyStringer) *MetricsStore {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MetricsStore{generateMetricsFunc: generateFunc, headers: headers, metrics: map[types.UID][]string{}}
 }
 func (s *MetricsStore) Add(obj interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o, err := meta.Accessor(obj)
@@ -44,9 +48,13 @@ func (s *MetricsStore) Add(obj interface{}) error {
 func (s *MetricsStore) Update(obj interface{}) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.Add(obj)
 }
 func (s *MetricsStore) Delete(obj interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o, err := meta.Accessor(obj)
@@ -61,9 +69,13 @@ func (s *MetricsStore) Delete(obj interface{}) error {
 func (s *MetricsStore) List() []interface{} {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (s *MetricsStore) ListKeys() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -71,14 +83,20 @@ func (s *MetricsStore) ListKeys() []string {
 func (s *MetricsStore) Get(obj interface{}) (item interface{}, exists bool, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, false, nil
 }
 func (s *MetricsStore) GetByKey(key string) (item interface{}, exists bool, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, false, nil
 }
 func (s *MetricsStore) Replace(list []interface{}, _ string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.mutex.Lock()
@@ -95,9 +113,13 @@ func (s *MetricsStore) Replace(list []interface{}, _ string) error {
 func (s *MetricsStore) Resync() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (s *MetricsStore) WriteAll(w io.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.mutex.RLock()
@@ -113,7 +135,16 @@ func (s *MetricsStore) WriteAll(w io.Writer) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

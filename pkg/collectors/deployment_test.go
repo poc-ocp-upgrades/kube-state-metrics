@@ -20,6 +20,8 @@ var (
 func TestDeploymentCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_deployment_created Unix creation timestamp
 		# TYPE kube_deployment_created gauge

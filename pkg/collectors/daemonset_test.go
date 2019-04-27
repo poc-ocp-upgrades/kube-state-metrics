@@ -10,6 +10,8 @@ import (
 func TestDaemonSetCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_daemonset_created Unix creation timestamp
 		# TYPE kube_daemonset_created gauge

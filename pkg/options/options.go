@@ -29,9 +29,13 @@ type Options struct {
 func NewOptions() *Options {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Options{Collectors: CollectorSet{}, MetricWhitelist: MetricSet{}, MetricBlacklist: MetricSet{}}
 }
 func (o *Options) AddFlags() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o.flags = pflag.NewFlagSet("", pflag.ExitOnError)
@@ -62,10 +66,14 @@ func (o *Options) AddFlags() {
 func (o *Options) Parse() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := o.flags.Parse(os.Args)
 	return err
 }
 func (o *Options) Usage() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o.flags.Usage()

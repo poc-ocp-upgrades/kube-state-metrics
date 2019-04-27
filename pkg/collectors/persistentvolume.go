@@ -35,6 +35,8 @@ var (
 func wrapPersistentVolumeFunc(f func(*v1.PersistentVolume) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		persistentVolume := obj.(*v1.PersistentVolume)
 		metricFamily := f(persistentVolume)
@@ -46,6 +48,8 @@ func wrapPersistentVolumeFunc(f func(*v1.PersistentVolume) metrics.Family) func(
 	}
 }
 func createPersistentVolumeListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

@@ -10,6 +10,8 @@ import (
 func TestServiceCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_service_info Information about service.
 		# TYPE kube_service_info gauge

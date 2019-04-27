@@ -34,6 +34,8 @@ var (
 func wrapPodDisruptionBudgetFunc(f func(*v1beta1.PodDisruptionBudget) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		podDisruptionBudget := obj.(*v1beta1.PodDisruptionBudget)
 		metricFamily := f(podDisruptionBudget)
@@ -45,6 +47,8 @@ func wrapPodDisruptionBudgetFunc(f func(*v1beta1.PodDisruptionBudget) metrics.Fa
 	}
 }
 func createPodDisruptionBudgetListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

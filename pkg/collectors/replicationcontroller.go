@@ -42,6 +42,8 @@ var (
 func wrapReplicationControllerFunc(f func(*v1.ReplicationController) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		replicationController := obj.(*v1.ReplicationController)
 		metricFamily := f(replicationController)
@@ -53,6 +55,8 @@ func wrapReplicationControllerFunc(f func(*v1.ReplicationController) metrics.Fam
 	}
 }
 func createReplicationControllerListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

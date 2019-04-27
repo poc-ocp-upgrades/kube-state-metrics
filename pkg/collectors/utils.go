@@ -18,6 +18,8 @@ var (
 func boolFloat64(b bool) float64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b {
 		return 1
 	}
@@ -26,9 +28,13 @@ func boolFloat64(b bool) float64 {
 func addConditionMetrics(cs v1.ConditionStatus) []*metrics.Metric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*metrics.Metric{&metrics.Metric{LabelValues: []string{"true"}, Value: boolFloat64(cs == v1.ConditionTrue)}, &metrics.Metric{LabelValues: []string{"false"}, Value: boolFloat64(cs == v1.ConditionFalse)}, &metrics.Metric{LabelValues: []string{"unknown"}, Value: boolFloat64(cs == v1.ConditionUnknown)}}
 }
 func kubeLabelsToPrometheusLabels(labels map[string]string) ([]string, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	labelKeys := make([]string, len(labels))
@@ -44,6 +50,8 @@ func kubeLabelsToPrometheusLabels(labels map[string]string) ([]string, []string)
 func kubeAnnotationsToPrometheusAnnotations(annotations map[string]string) ([]string, []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	annotationKeys := make([]string, len(annotations))
 	annotationValues := make([]string, len(annotations))
 	i := 0
@@ -55,6 +63,8 @@ func kubeAnnotationsToPrometheusAnnotations(annotations map[string]string) ([]st
 	return annotationKeys, annotationValues
 }
 func sanitizeLabelName(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return invalidLabelCharRE.ReplaceAllString(s, "_")

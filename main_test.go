@@ -22,6 +22,8 @@ import (
 func BenchmarkKubeStateMetrics(b *testing.B) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var collectors []*kcollectors.Collector
 	fixtureMultiplier := 1000
 	requestCount := 1000
@@ -64,6 +66,8 @@ func BenchmarkKubeStateMetrics(b *testing.B) {
 	})
 }
 func TestFullScrapeCycle(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Parallel()
@@ -237,6 +241,8 @@ kube_pod_container_resource_limits_memory_bytes{namespace="default",pod="pod0",c
 func injectFixtures(client *fake.Clientset, multiplier int) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	creators := []func(*fake.Clientset, int) error{configMap, service, pod}
 	for _, c := range creators {
 		for i := 0; i < multiplier; i++ {
@@ -251,6 +257,8 @@ func injectFixtures(client *fake.Clientset, multiplier int) error {
 func configMap(client *fake.Clientset, index int) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := strconv.Itoa(index)
 	configMap := v1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "configmap" + i, ResourceVersion: "123456"}}
 	_, err := client.CoreV1().ConfigMaps(metav1.NamespaceDefault).Create(&configMap)
@@ -259,12 +267,16 @@ func configMap(client *fake.Clientset, index int) error {
 func service(client *fake.Clientset, index int) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := strconv.Itoa(index)
 	service := v1.Service{ObjectMeta: metav1.ObjectMeta{Name: "service" + i, ResourceVersion: "123456"}}
 	_, err := client.CoreV1().Services(metav1.NamespaceDefault).Create(&service)
 	return err
 }
 func pod(client *fake.Clientset, index int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	i := strconv.Itoa(index)

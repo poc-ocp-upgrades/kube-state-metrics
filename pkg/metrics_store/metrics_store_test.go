@@ -14,6 +14,8 @@ import (
 func TestObjectsSameNameDifferentNamespaces(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceIDS := []string{"a", "b"}
 	genFunc := func(obj interface{}) []FamilyStringer {
 		o, err := meta.Accessor(obj)

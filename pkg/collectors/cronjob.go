@@ -63,6 +63,8 @@ var (
 func wrapCronJobFunc(f func(*batchv1beta1.CronJob) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		cronJob := obj.(*batchv1beta1.CronJob)
 		metricFamily := f(cronJob)
@@ -76,6 +78,8 @@ func wrapCronJobFunc(f func(*batchv1beta1.CronJob) metrics.Family) func(interfac
 func createCronJobListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {
 		return kubeClient.BatchV1beta1().CronJobs(ns).List(opts)
 	}, WatchFunc: func(opts metav1.ListOptions) (watch.Interface, error) {
@@ -83,6 +87,8 @@ func createCronJobListWatch(kubeClient clientset.Interface, ns string) cache.Lis
 	}}
 }
 func getNextScheduledTime(schedule string, lastScheduleTime *metav1.Time, createdTime metav1.Time) (time.Time, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sched, err := cron.ParseStandard(schedule)

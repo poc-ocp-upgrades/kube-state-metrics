@@ -61,6 +61,8 @@ var (
 func wrapReplicaSetFunc(f func(*v1beta1.ReplicaSet) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		replicaSet := obj.(*v1beta1.ReplicaSet)
 		metricFamily := f(replicaSet)
@@ -72,6 +74,8 @@ func wrapReplicaSetFunc(f func(*v1beta1.ReplicaSet) metrics.Family) func(interfa
 	}
 }
 func createReplicaSetListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

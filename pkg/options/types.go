@@ -12,12 +12,16 @@ type MetricSet map[string]struct{}
 func (ms *MetricSet) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := *ms
 	ss := s.asSlice()
 	sort.Strings(ss)
 	return strings.Join(ss, ",")
 }
 func (ms *MetricSet) Set(value string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := *ms
@@ -33,6 +37,8 @@ func (ms *MetricSet) Set(value string) error {
 func (ms MetricSet) asSlice() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	metrics := []string{}
 	for metric := range ms {
 		metrics = append(metrics, metric)
@@ -42,9 +48,13 @@ func (ms MetricSet) asSlice() []string {
 func (ms MetricSet) IsEmpty() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(ms.asSlice()) == 0
 }
 func (ms *MetricSet) Type() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "string"
@@ -55,12 +65,16 @@ type CollectorSet map[string]struct{}
 func (c *CollectorSet) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := *c
 	ss := s.AsSlice()
 	sort.Strings(ss)
 	return strings.Join(ss, ",")
 }
 func (c *CollectorSet) Set(value string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := *c
@@ -80,6 +94,8 @@ func (c *CollectorSet) Set(value string) error {
 func (c CollectorSet) AsSlice() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cols := []string{}
 	for col := range c {
 		cols = append(cols, col)
@@ -89,9 +105,13 @@ func (c CollectorSet) AsSlice() []string {
 func (c CollectorSet) isEmpty() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(c.AsSlice()) == 0
 }
 func (c *CollectorSet) Type() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "string"
@@ -102,14 +122,20 @@ type NamespaceList []string
 func (n *NamespaceList) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Join(*n, ",")
 }
 func (n *NamespaceList) IsAllNamespaces() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(*n) == 1 && (*n)[0] == metav1.NamespaceAll
 }
 func (n *NamespaceList) Set(value string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	splittedNamespaces := strings.Split(value, ",")
@@ -122,6 +148,8 @@ func (n *NamespaceList) Set(value string) error {
 	return nil
 }
 func (n *NamespaceList) Type() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "string"

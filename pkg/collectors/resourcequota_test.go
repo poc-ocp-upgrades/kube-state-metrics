@@ -11,6 +11,8 @@ import (
 func TestResourceQuotaCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 	# HELP kube_resourcequota Information about resource quota.
 	# TYPE kube_resourcequota gauge

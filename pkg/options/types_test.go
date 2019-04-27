@@ -8,6 +8,8 @@ import (
 func TestCollectorSetSet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		Desc		string
 		Value		string

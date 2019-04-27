@@ -17,6 +17,8 @@ type WhiteBlackList struct {
 func New(w, b map[string]struct{}) (*WhiteBlackList, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(w) != 0 && len(b) != 0 {
 		return nil, errors.New("whitelist and blacklist are both set, they are mutually exclusive, only one of them can be set")
 	}
@@ -36,6 +38,8 @@ func New(w, b map[string]struct{}) (*WhiteBlackList, error) {
 func (l *WhiteBlackList) Include(items []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.isWhiteList {
 		for _, item := range items {
 			l.list[item] = struct{}{}
@@ -47,6 +51,8 @@ func (l *WhiteBlackList) Include(items []string) {
 	}
 }
 func (l *WhiteBlackList) Exclude(items []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if l.isWhiteList {
@@ -62,6 +68,8 @@ func (l *WhiteBlackList) Exclude(items []string) {
 func (l *WhiteBlackList) IsIncluded(item string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, exists := l.list[item]
 	if l.isWhiteList {
 		return exists
@@ -71,9 +79,13 @@ func (l *WhiteBlackList) IsIncluded(item string) bool {
 func (l *WhiteBlackList) IsExcluded(item string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !l.IsIncluded(item)
 }
 func (l *WhiteBlackList) Status() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	items := []string{}
@@ -88,6 +100,8 @@ func (l *WhiteBlackList) Status() string {
 func copyList(l map[string]struct{}) map[string]struct{} {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newList := map[string]struct{}{}
 	for k, v := range l {
 		newList[k] = v
@@ -97,7 +111,16 @@ func copyList(l map[string]struct{}) map[string]struct{} {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

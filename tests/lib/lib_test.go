@@ -20,6 +20,8 @@ import (
 func TestAsLibrary(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient := fake.NewSimpleClientset()
 	service := v1.Service{ObjectMeta: metav1.ObjectMeta{Name: "my-service", ResourceVersion: "123456"}}
 	_, err := kubeClient.CoreV1().Services(metav1.NamespaceDefault).Create(&service)
@@ -38,6 +40,8 @@ func TestAsLibrary(t *testing.T) {
 func serviceCollector(kubeClient clientset.Interface) *collectors.Collector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	store := metricsstore.NewMetricsStore([]string{"test_metric describes a test metric"}, generateServiceMetrics)
 	lw := cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {
 		return kubeClient.CoreV1().Services(metav1.NamespaceDefault).List(opts)
@@ -49,6 +53,8 @@ func serviceCollector(kubeClient clientset.Interface) *collectors.Collector {
 	return collectors.NewCollector(store)
 }
 func generateServiceMetrics(obj interface{}) []metricsstore.FamilyStringer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sPointer := obj.(*v1.Service)

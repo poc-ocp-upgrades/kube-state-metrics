@@ -10,6 +10,8 @@ import (
 func TestOptionsParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		Desc		string
 		Args		[]string

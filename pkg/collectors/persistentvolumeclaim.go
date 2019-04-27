@@ -43,6 +43,8 @@ var (
 func wrapPersistentVolumeClaimFunc(f func(*v1.PersistentVolumeClaim) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		persistentVolumeClaim := obj.(*v1.PersistentVolumeClaim)
 		metricFamily := f(persistentVolumeClaim)
@@ -56,6 +58,8 @@ func wrapPersistentVolumeClaimFunc(f func(*v1.PersistentVolumeClaim) metrics.Fam
 func createPersistentVolumeClaimListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {
 		return kubeClient.CoreV1().PersistentVolumeClaims(ns).List(opts)
 	}, WatchFunc: func(opts metav1.ListOptions) (watch.Interface, error) {
@@ -63,6 +67,8 @@ func createPersistentVolumeClaimListWatch(kubeClient clientset.Interface, ns str
 	}}
 }
 func getPersistentVolumeClaimClass(claim *v1.PersistentVolumeClaim) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if class, found := claim.Annotations[v1.BetaStorageClassAnnotation]; found {

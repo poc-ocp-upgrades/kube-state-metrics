@@ -18,6 +18,8 @@ type generateMetricsTestCase struct {
 func (testCase *generateMetricsTestCase) run() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	metricFamilies := testCase.Func(testCase.Obj)
 	metricFamilyStrings := []string{}
 	for _, f := range metricFamilies {
@@ -34,6 +36,8 @@ func (testCase *generateMetricsTestCase) run() error {
 func compareOutput(a, b string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	entities := []string{a, b}
 	for i := 0; i < len(entities); i++ {
 		for _, f := range []func(string) string{removeUnusedWhitespace, sortLabels, sortByLine} {
@@ -46,6 +50,8 @@ func compareOutput(a, b string) error {
 	return nil
 }
 func sortLabels(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sorted := []string{}
@@ -66,11 +72,15 @@ func sortLabels(s string) string {
 func sortByLine(s string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	split := strings.Split(s, "\n")
 	sort.Strings(split)
 	return strings.Join(split, "\n")
 }
 func filterMetrics(ms []string, names []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if names == nil {
@@ -96,6 +106,8 @@ func filterMetrics(ms []string, names []string) []string {
 	return filtered
 }
 func removeUnusedWhitespace(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (

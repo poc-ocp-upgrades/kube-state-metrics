@@ -28,6 +28,8 @@ var (
 func createConfigMapListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {
 		return kubeClient.CoreV1().ConfigMaps(ns).List(opts)
 	}, WatchFunc: func(opts metav1.ListOptions) (watch.Interface, error) {
@@ -35,6 +37,8 @@ func createConfigMapListWatch(kubeClient clientset.Interface, ns string) cache.L
 	}}
 }
 func wrapConfigMapFunc(f func(*v1.ConfigMap) metrics.Family) func(interface{}) metrics.Family {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {

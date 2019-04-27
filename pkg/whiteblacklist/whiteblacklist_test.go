@@ -7,6 +7,8 @@ import (
 func TestNew(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Run("fails with two non empty maps", func(t *testing.T) {
 		_, err := New(map[string]struct{}{"not-empty": struct{}{}}, map[string]struct{}{"not-empty": struct{}{}})
 		if err == nil {
@@ -44,6 +46,8 @@ func TestNew(t *testing.T) {
 func TestInclude(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Run("adds when whitelist", func(t *testing.T) {
 		whitelist, err := New(map[string]struct{}{"not-empty": struct{}{}}, map[string]struct{}{})
 		if err != nil {
@@ -67,6 +71,8 @@ func TestInclude(t *testing.T) {
 	})
 }
 func TestExclude(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Run("removes when whitelist", func(t *testing.T) {

@@ -11,6 +11,8 @@ import (
 func TestLimitRangeollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testMemory := "2.1G"
 	testMemoryQuantity := resource.MustParse(testMemory)
 	const metadata = `

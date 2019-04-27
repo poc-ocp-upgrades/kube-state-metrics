@@ -10,6 +10,8 @@ import (
 func TestEndpointCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_endpoint_address_available Number of addresses available in endpoint.
 		# TYPE kube_endpoint_address_available gauge

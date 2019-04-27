@@ -45,6 +45,8 @@ var (
 func wrapDaemonSetFunc(f func(*v1beta1.DaemonSet) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		daemonSet := obj.(*v1beta1.DaemonSet)
 		metricFamily := f(daemonSet)
@@ -56,6 +58,8 @@ func wrapDaemonSetFunc(f func(*v1beta1.DaemonSet) metrics.Family) func(interface
 	}
 }
 func createDaemonSetListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

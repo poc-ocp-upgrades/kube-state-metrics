@@ -12,6 +12,8 @@ import (
 func TestPodCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var test = true
 	startTime := 1501569018
 	metav1StartTime := metav1.Unix(int64(startTime), 0)

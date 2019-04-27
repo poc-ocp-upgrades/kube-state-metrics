@@ -15,6 +15,8 @@ var (
 func TestReplicaSetCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var test = true
 	const metadata = `
 		# HELP kube_replicaset_created Unix creation timestamp

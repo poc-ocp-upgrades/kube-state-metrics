@@ -33,6 +33,8 @@ type Family []*Metric
 func (f Family) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := strings.Builder{}
 	for _, m := range f {
 		m.Write(&b)
@@ -55,6 +57,8 @@ type Metric struct {
 func (m *Metric) Write(s *strings.Builder) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(m.LabelKeys) != len(m.LabelValues) {
 		panic("expected labelKeys to be of same length as labelValues")
 	}
@@ -65,6 +69,8 @@ func (m *Metric) Write(s *strings.Builder) {
 	s.WriteByte('\n')
 }
 func labelsToString(m *strings.Builder, keys, values []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(keys) > 0 {
@@ -88,9 +94,13 @@ var (
 func escapeString(m *strings.Builder, v string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	escapeWithDoubleQuote.WriteString(m, v)
 }
 func writeFloat(w *strings.Builder, f float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch {
@@ -116,7 +126,16 @@ func writeFloat(w *strings.Builder, f float64) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

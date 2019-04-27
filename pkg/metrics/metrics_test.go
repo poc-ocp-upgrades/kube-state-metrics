@@ -8,6 +8,8 @@ import (
 func TestFamilyString(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := Metric{Name: "kube_pod_info", LabelKeys: []string{"namespace"}, LabelValues: []string{"default"}, Value: 1}
 	f := Family{&m}
 	expected := "kube_pod_info{namespace=\"default\"} 1"
@@ -17,6 +19,8 @@ func TestFamilyString(t *testing.T) {
 	}
 }
 func BenchmarkMetricWrite(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

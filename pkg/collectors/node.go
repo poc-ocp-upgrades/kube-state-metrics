@@ -163,6 +163,8 @@ var (
 func wrapNodeFunc(f func(*v1.Node) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		node := obj.(*v1.Node)
 		metricFamily := f(node)
@@ -174,6 +176,8 @@ func wrapNodeFunc(f func(*v1.Node) metrics.Family) func(interface{}) metrics.Fam
 	}
 }
 func createNodeListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

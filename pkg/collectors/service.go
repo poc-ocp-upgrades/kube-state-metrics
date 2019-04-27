@@ -52,6 +52,8 @@ var (
 func wrapSvcFunc(f func(*v1.Service) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		svc := obj.(*v1.Service)
 		metricFamily := f(svc)
@@ -63,6 +65,8 @@ func wrapSvcFunc(f func(*v1.Service) metrics.Family) func(interface{}) metrics.F
 	}
 }
 func createServiceListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

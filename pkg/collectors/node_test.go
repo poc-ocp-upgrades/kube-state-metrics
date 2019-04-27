@@ -11,6 +11,8 @@ import (
 func TestNodeCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_node_created Unix creation timestamp
 		# TYPE kube_node_created gauge

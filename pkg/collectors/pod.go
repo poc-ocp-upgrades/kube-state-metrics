@@ -316,6 +316,8 @@ var (
 func wrapPodFunc(f func(*v1.Pod) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		pod := obj.(*v1.Pod)
 		metricFamily := f(pod)
@@ -329,6 +331,8 @@ func wrapPodFunc(f func(*v1.Pod) metrics.Family) func(interface{}) metrics.Famil
 func createPodListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {
 		return kubeClient.CoreV1().Pods(ns).List(opts)
 	}, WatchFunc: func(opts metav1.ListOptions) (watch.Interface, error) {
@@ -336,6 +340,8 @@ func createPodListWatch(kubeClient clientset.Interface, ns string) cache.ListWat
 	}}
 }
 func waitingReason(cs v1.ContainerStatus, reason string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if cs.State.Waiting == nil {
@@ -346,12 +352,16 @@ func waitingReason(cs v1.ContainerStatus, reason string) bool {
 func terminationReason(cs v1.ContainerStatus, reason string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cs.State.Terminated == nil {
 		return false
 	}
 	return cs.State.Terminated.Reason == reason
 }
 func lastTerminationReason(cs v1.ContainerStatus, reason string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if cs.LastTerminationState.Terminated == nil {

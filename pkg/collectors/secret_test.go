@@ -9,6 +9,8 @@ import (
 func TestSecretCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	startTime := 1501569018
 	metav1StartTime := metav1.Unix(int64(startTime), 0)
 	const metadata = `

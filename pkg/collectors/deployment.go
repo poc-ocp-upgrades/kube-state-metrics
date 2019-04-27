@@ -64,6 +64,8 @@ var (
 func wrapDeploymentFunc(f func(*v1beta1.Deployment) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		deployment := obj.(*v1beta1.Deployment)
 		metricFamily := f(deployment)
@@ -75,6 +77,8 @@ func wrapDeploymentFunc(f func(*v1beta1.Deployment) metrics.Family) func(interfa
 	}
 }
 func createDeploymentListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

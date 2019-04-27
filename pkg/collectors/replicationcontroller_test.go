@@ -15,6 +15,8 @@ var (
 func TestReplicationControllerCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_replicationcontroller_created Unix creation timestamp
 		# TYPE kube_replicationcontroller_created gauge

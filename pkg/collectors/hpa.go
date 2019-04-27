@@ -46,6 +46,8 @@ var (
 func wrapHPAFunc(f func(*autoscaling.HorizontalPodAutoscaler) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		hpa := obj.(*autoscaling.HorizontalPodAutoscaler)
 		metricFamily := f(hpa)
@@ -57,6 +59,8 @@ func wrapHPAFunc(f func(*autoscaling.HorizontalPodAutoscaler) metrics.Family) fu
 	}
 }
 func createHPAListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

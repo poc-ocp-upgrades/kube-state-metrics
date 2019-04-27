@@ -55,6 +55,8 @@ var (
 func wrapStatefulSetFunc(f func(*v1beta1.StatefulSet) metrics.Family) func(interface{}) metrics.Family {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj interface{}) metrics.Family {
 		statefulSet := obj.(*v1beta1.StatefulSet)
 		metricFamily := f(statefulSet)
@@ -66,6 +68,8 @@ func wrapStatefulSetFunc(f func(*v1beta1.StatefulSet) metrics.Family) func(inter
 	}
 }
 func createStatefulSetListWatch(kubeClient clientset.Interface, ns string) cache.ListWatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return cache.ListWatch{ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {

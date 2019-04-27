@@ -10,6 +10,8 @@ import (
 func TestPersistentVolumeClaimCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 		# HELP kube_persistentvolumeclaim_info Information about persistent volume claim.
 		# TYPE kube_persistentvolumeclaim_info gauge

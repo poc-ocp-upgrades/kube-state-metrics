@@ -9,6 +9,8 @@ import (
 func TestPersistentVolumeCollector(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const metadata = `
 			# HELP kube_persistentvolume_status_phase The phase indicates if a volume is available, bound to a claim, or released by a claim.
 			# TYPE kube_persistentvolume_status_phase gauge
